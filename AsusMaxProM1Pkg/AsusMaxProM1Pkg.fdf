@@ -26,7 +26,7 @@
 
 [FD.AsusMaxProM1Pkg_UEFI]
 BaseAddress   = 0xd0000000|gArmTokenSpaceGuid.PcdFdBaseAddress  # The base address of the Firmware in NOR Flash.
-Size          = 0x01000000|gArmTokenSpaceGuid.PcdFdSize         # The size in bytes of the FLASH Device
+Size          = 0x00120000|gArmTokenSpaceGuid.PcdFdSize         # The size in bytes of the FLASH Device
 ErasePolarity = 1
 
 # This one is tricky, it must be: BlockSize * NumBlocks = Size
@@ -622,9 +622,19 @@ READ_LOCK_STATUS   = TRUE
       SECTION UI = "UsbConfigDxe"
     }
 
-  # Linux (pretends to be uefi shell)
+  # Windows (pretends to be Linux)
   FILE APPLICATION = 7C04A583-9E3E-4f1c-AD65-E05268D0B4D1 {
-    SECTION PE32 = AsusMaxProM1Pkg/linux.efi
+    SECTION PE32 = AsusMaxProM1Pkg/bootaa64.efi
+  }
+
+  FILE FREEFORM = c68502c0-00a6-45af-b8eb-12573bd346c0 {
+    SECTION UI = "BCD"
+    SECTION RAW = AsusMaxProM1Pkg/BCD
+  }
+
+  FILE FREEFORM = 3365bce5-bff1-45ce-81aa-069b36b87e43 {
+    SECTION UI = "boot.stl"
+    SECTION RAW = AsusMaxProM1Pkg/boot.stl
   }
 
 [FV.FVMAIN_COMPACT]
